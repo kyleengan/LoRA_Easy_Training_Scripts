@@ -1,5 +1,4 @@
-numpy==1.26.4
-pyside6
+pyside6==6.11.2
 qt-material==2.14
-toml
-requests
+toml==0.10.2
+requests==2.34.2
