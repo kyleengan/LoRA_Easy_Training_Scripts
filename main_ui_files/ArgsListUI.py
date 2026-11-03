@@ -30,6 +30,7 @@ class ArgsWidget(QtWidgets.QWidget):
         self.ti_widget = TextualInversionWidget()
         self.ti_widget.setVisible(False)
         self.flux_widget = FluxWidget()
+        self.noise_widget = NoiseOffsetWidget()
 
         self.setup_widget()
         self.setup_args_widgets()
@@ -68,6 +69,10 @@ class ArgsWidget(QtWidgets.QWidget):
             lambda x: self.network_widget.edit_network_args("split_qkv", x, True)
         )
         self.flux_widget.Toggled.connect(self.network_widget.toggle_sdxl)
+        self.flux_widget.Toggled.connect(self.noise_widget.set_flux)
+        # selecting SDXL / v2 clears flux args without emitting Toggled; re-read the flux state afterwards
+        general_args.v2Checked.connect(lambda _: self.noise_widget.set_flux(bool(self.flux_widget.args)))
+        general_args.sdxlChecked.connect(lambda _: self.noise_widget.set_flux(bool(self.flux_widget.args)))
         self.optimizer_widget.maskedLossChecked.connect(lambda x: self.maskedLossChecked.emit(x))
         self.args_widget_array.append(general_args)
         self.sdxlChecked.connect(self.network_widget.toggle_sdxl)
@@ -76,7 +81,7 @@ class ArgsWidget(QtWidgets.QWidget):
         self.args_widget_array.append(self.optimizer_widget)
         self.args_widget_array.append(SavingWidget())
         self.args_widget_array.append(BucketWidget())
-        self.args_widget_array.append(NoiseOffsetWidget())
+        self.args_widget_array.append(self.noise_widget)
         self.args_widget_array.append(SampleWidget())
         self.args_widget_array.append(LoggingWidget())
         self.args_widget_array.append(self.flux_widget)
@@ -92,10 +97,12 @@ class ArgsWidget(QtWidgets.QWidget):
     def set_ti_training(self) -> None:
         self.network_widget.setVisible(False)
         self.ti_widget.setVisible(True)
+        self.noise_widget.set_ti(True)
 
     def set_lora_training(self) -> None:
         self.ti_widget.setVisible(False)
         self.network_widget.setVisible(True)
+        self.noise_widget.set_ti(False)
 
     def get_args(self) -> dict:
         args = {}

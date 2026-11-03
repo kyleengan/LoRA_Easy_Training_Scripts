@@ -1,4 +1,4 @@
 @echo off
 
-python install.py
+py -3.12 install.py
 pause

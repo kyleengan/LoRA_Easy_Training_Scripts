@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>75</height>
+    <height>140</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -107,6 +107,101 @@
        </property>
        <property name="value">
         <double>0.300000000000000</double>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="2" column="0">
+    <widget class="QCheckBox" name="immiscible_enable">
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Immiscible noise pairing (KNN): for each image, k noise samples are drawn and the one closest to the image latent is used. Reported to speed up convergence. Works at any batch size. Not used by Flux.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="text">
+      <string>Immiscible Noise</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QLabel" name="label_4">
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Number of noise candidates per image (k). Around 4-8 is a reasonable start; larger values pair more strongly.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="text">
+        <string>Candidates (k)</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="SpinBox" name="immiscible_k_input">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::StrongFocus</enum>
+       </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Number of noise candidates per image (k). Around 4-8 is a reasonable start; larger values pair more strongly.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="minimum">
+        <number>2</number>
+       </property>
+       <property name="maximum">
+        <number>64</number>
+       </property>
+       <property name="value">
+        <number>8</number>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="3" column="0">
+    <widget class="QCheckBox" name="dream_enable">
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;DREAM (experimental): adds one extra no-grad forward pass per step and trains on inputs rectified with the model's own prediction, reducing exposure bias. Roughly +25-35% time per step. Gains are proven only for super-resolution; A/B test it. SD 1.5 / SDXL LoRA only (not Flux or Textual Inversion).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="text">
+      <string>DREAM (experimental)</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QLabel" name="label_5">
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Detail preservation exponent p in lambda = sqrt(1 - alpha_bar)^p. 1.0 is the paper's best; values near 0 apply full strength at every timestep, larger values weaken the effect at low noise levels.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="text">
+        <string>Detail Preservation (p)</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="DoubleSpinBox" name="dream_p_input">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::StrongFocus</enum>
+       </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Detail preservation exponent p in lambda = sqrt(1 - alpha_bar)^p. 1.0 is the paper's best; values near 0 apply full strength at every timestep, larger values weaken the effect at low noise levels.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="minimum">
+        <double>0.050000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>5.000000000000000</double>
+       </property>
+       <property name="singleStep">
+        <double>0.100000000000000</double>
+       </property>
+       <property name="value">
+        <double>1.000000000000000</double>
        </property>
       </widget>
      </item>
